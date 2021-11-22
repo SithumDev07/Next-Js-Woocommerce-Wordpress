@@ -4,6 +4,7 @@ import Footer from "../src/components/layouts/footer";
 import Header from "../src/components/layouts/header";
 import {HEADER_FOOTER_ENDPOINT, GET_PRODUCTS_ENDPOINT} from "../src/utils/constants/endpoints.js";
 import Products from "../src/components/layouts/products";
+import { getProductsData } from "../src/utils/products";
 
 export default function Home({ headerFooter, products }) {
   const {header, footer} = headerFooter || {};
@@ -24,12 +25,12 @@ export default function Home({ headerFooter, products }) {
 export async function getStaticProps() {
   
   const { data: headerFooterData } = await axios.get(HEADER_FOOTER_ENDPOINT);
-  const { data: productsData } = await axios.get(GET_PRODUCTS_ENDPOINT);
+  const { data: products } = await getProductsData();
 
   return {
     props: {
       headerFooter: headerFooterData?.data ?? {},
-      products: productsData?.products ?? {}
+      products: products ?? {}
     },
     
 

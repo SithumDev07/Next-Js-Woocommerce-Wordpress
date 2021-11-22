@@ -1,23 +1,36 @@
 import { sanitize } from '../../../utils/miscellaneous';
 import {isEmpty, isArray} from 'lodash'
 import Link from 'next/link'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {getIconComponentByName} from "../../../utils/icon-map"
 
 function Footer({footer}) {
     const {footerMenuItems, socialLinks, copyrightText, sidebarOne, sidebarTwo} = footer || {};
+    const [isMounted, setIsMount] = useState( false );
+
+    useEffect(() => {
+        setIsMount(true);
+    }, [])
+
     return (
         <footer className='bg-yellow-400 p-6'>
             <div className='container mx-auto'>
                 <div className='flex flex-wrap -mx-1 overflow-hidden text-gray-900'>
-                    {/* WidgetOne */}
-                    <div className='my-1 px-1 w-full overflow-hidden sm:w-full lg:w-1/2 xl:w-1/3'>
-                        <div dangerouslySetInnerHTML={{ __html: sanitize(sidebarOne) }} />
-                    </div>
-                    {/* WidgetTwo */}
-                    <div className='my-1 px-1 w-full overflow-hidden sm:w-full lg:w-1/2 xl:w-1/3'>
-                        <div dangerouslySetInnerHTML={{ __html: sanitize(sidebarTwo) }} />
-                    </div>
+                    
+                    {
+                        isMounted ? (
+                            <>
+                                {/* WidgetOne */}
+                                <div className='my-1 px-1 w-full overflow-hidden sm:w-full lg:w-1/2 xl:w-1/3'>
+                                    <div dangerouslySetInnerHTML={{ __html: sanitize(sidebarOne) }} />
+                                </div>
+                                {/* WidgetTwo */}
+                                <div className='my-1 px-1 w-full overflow-hidden sm:w-full lg:w-1/2 xl:w-1/3'>
+                                    <div dangerouslySetInnerHTML={{ __html: sanitize(sidebarTwo) }} />
+                                </div>
+                            </>
+                        ) : null
+                    }
 
                     {/* Footer Menus */}
                     <div className='my-1  px-1 w-full overflow-hidden sm:w-full lg:w-1/2 xl:w-1/3'>
