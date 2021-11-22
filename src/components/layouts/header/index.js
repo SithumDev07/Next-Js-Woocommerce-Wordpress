@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-
+import TailwindIcon from "../../../icons/TailwindIcon"
+import BurgerIcon from "../../../icons/BurgerIcon"
+ 
 import {isEmpty} from 'lodash'
 
 function Header({header}) {
     
     const {headerMenuItems, siteDescription, siteLogoUrl, siteTitle, favicon} = header || {};
+
+    const [openMenu, setOpenMenu] = useState(false);
     
     return (
         <>
@@ -25,12 +29,7 @@ function Header({header}) {
                                         siteLogoUrl ? (
                                             <img className='mr-2' src={siteLogoUrl} alt="siteLOGO" width={60} height={60}/>
                                         ) : (
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-radioactive" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFA029" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                                <path d="M13.5 14.6l3 5.19a9 9 0 0 0 4.5 -7.79h-6a3 3 0 0 1 -1.5 2.6" />
-                                                <path d="M13.5 9.4l3 -5.19a9 9 0 0 0 -9 0l3 5.19a3 3 0 0 1 3 0" />
-                                                <path d="M10.5 14.6l-3 5.19a9 9 0 0 1 -4.5 -7.79h6a3 3 0 0 0 1.5 2.6" />
-                                            </svg>
+                                            <TailwindIcon />
                                         )
                                     }
                                 </a>
@@ -46,7 +45,12 @@ function Header({header}) {
                             </span>
 
                         </div>
-                        <div className='h-0 w-full overflow-hidden lg:h-full flex-grow lg:flex px-12'>
+                        <div className='block lg:hidden'>
+                            <button onClick={() => setOpenMenu(!openMenu)} className='flex items-center px-3 py-2 border rounded text-black border-black'>
+                                <BurgerIcon className="fill-current h-3 w-3"/>
+                            </button>
+                        </div>
+                        <div className={`${openMenu ? 'max-h-full' : 'h-0'} w-full overflow-hidden lg:h-full flex-grow lg:items-center lg:flex px-12 lg:w-auto`}>
                             <div className='text-sm font-medium uppercase flex justify-between w-full'>
                                 {!isEmpty(headerMenuItems) && headerMenuItems.length ? headerMenuItems.map(menuItem => (
                                     <Link href={menuItem?.url} key={menuItem?.ID}>
